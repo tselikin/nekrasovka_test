@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
+use App\Http\Controllers\SubscriberController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -17,3 +18,6 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::post('/subscription', [SubscriberController::class, 'subscribe'])->name('subscribe');
+Route::get('/subscription/{subscriber}', [SubscriberController::class, 'subscriberSubscriptions']); //TODO Защитить путь

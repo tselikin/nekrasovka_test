@@ -9,6 +9,9 @@ class Subscriber extends Model
 {
     use HasFactory;
 
+    protected $fillable = ['email'];
+    public $timestamps = false;
+
     public function sections()
     {
         return $this->belongsToMany(Section::class);
