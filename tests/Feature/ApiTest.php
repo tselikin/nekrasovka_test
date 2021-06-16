@@ -7,7 +7,9 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 use App\Models\Subscriber;
 use App\Models\Section;
+use App\Models\User;
 use Str;
+use Illuminate\Support\Facades\Hash;
 
 class ApiTest extends TestCase
 {
@@ -89,6 +91,34 @@ class ApiTest extends TestCase
             'section_id' => $section->id,
             'subscriber_id' => $subscriber->id,
         ]);
+    }
+
+
+    public function test_userCanGetApiTokenFromEmailAndPassword()
+    {
+        $password = Str::random(10);
+
+        $user = User::factory()->make([
+            'password' => Hash::make($password)
+        ]);
+
+        $user->save();
+
+        $response = $this->post(route('getApiToken'), [
+            'email' => $user->email,
+            'password' => $password
+        ]);
+
+        $response
+            ->assertStatus(200)
+            ->assertJson([
+                'successful api login' => true,
+            ]);
+
+
+
+
+
     }
 
 

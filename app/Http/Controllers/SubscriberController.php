@@ -4,7 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Subscriber;
-
+use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 
 class SubscriberController extends Controller
 {
@@ -29,7 +30,7 @@ class SubscriberController extends Controller
     {
         $validated = $request->validate([
             'email' => 'required|email|max:255|exists:subscribers,email',
-            'section' => 'exists:sections,id',
+            'section' => 'exists:sections,id'
         ]);
 
         $subscriber = Subscriber::where('email', $request->email)->first();
@@ -47,5 +48,24 @@ class SubscriberController extends Controller
     public function subscriberSubscriptions(Subscriber $subscriber)
     {
         // dd($subscriber);
+    }
+
+
+    public function getApiToken(Request $request)
+    {
+        $validated = $request->validate([
+            'email' => 'required|email|max:255',
+            'password' => 'required'
+        ]);
+
+        $user = User::where([
+            'email' => $request->email,
+        ])->firstOrFail();
+
+        if (Hash::check($request->password, $user->password))
+            return response()->json([
+                'successful api login' => True,
+                'apitoken' =>  $user->updateApiToken()
+            ], 200);
     }
 }
