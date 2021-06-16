@@ -125,7 +125,4 @@ class SubscriberController extends Controller
             'subscribers' => $subscribers->toJson()
         ]);
     }
-
-
-
 }

@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>Nekrasovka-test</title>
+        <title>Тестовое задание для Библиотеки им. Н.А. Некрасова</title>
 
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
@@ -50,46 +50,130 @@
                         <div class="p-6">
                             <div class="flex items-center">
                                 <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" class="w-8 h-8 text-gray-500"><path d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
-                                <div class="ml-4 text-lg leading-7 font-semibold"><a href="https://laravel.com/docs" class="underline text-gray-900 dark:text-white">Задача</a></div>
+                                <div class="ml-4 text-lg leading-7 font-semibold"><a href="#" class="underline text-gray-900 dark:text-white">Задача</a></div>
                             </div>
 
                             <div class="ml-12">
-                                <div class="mt-2 text-gray-600 dark:text-gray-400 text-sm">
+                                <div class="mt-2 text-gray-800 dark:text-gray-400 text-sm">
                                   <p>Реализовать API для подписки на новости.</p>
                                   <p>API должно выполнять следующие задачи:</p>
                                   <ul>
                                     <li>Подписка пользователя по email на нужную рубрику</li>
                                     <li>Удаление подписки на конкретную рубрику</li>
                                     <li>Удаление подписки на все рубрики</li>
-                                    <li>Отображение подписок пользователя и отображение всех пользователей переданной рубрики  Эти данные должны быть доступны только после авторизации. Например через открытыйзакрытый ключ с последующим использование токена. (Ключи выдаются доверенному приложению которое и будет отображать данные из API (реализация приложения не требуется))  Так как этих данных может быть много, то этим методы должны принимать дополнительные параметры limit и offset ограничивающие выдачу.</li>
+                                    <li>Отображение подписок пользователя и отображение всех пользователей переданной рубрики. Эти данные должны быть доступны только после авторизации. Например через открытый/закрытый ключ с последующим использованием токена. (Ключи выдаются доверенному приложению которое и будет отображать данные из API (реализация приложения не требуется))  Так как этих данных может быть много, то этим методы должны принимать дополнительные параметры limit и offset ограничивающие выдачу.</li>
                                   </ul>
-
-
-
-                                  <p>Требования:</p>
-
+                                  <h3>Требования:</h3>
                                   <p>Фреймворк любой современный фреймворк подойдет. Будет плюсом реализация RESTful API.
                                     Результат отправить на e.shabanova@nekrasovka.ru</p>
 
 
-                                    <p>Для заполнения базы тестовыми данными используйте php artisan db:seed</p>
                                 </div>
                             </div>
                         </div>
 
-                        {{-- <div class="p-6 border-t border-gray-200 dark:border-gray-700 md:border-t-0 md:border-l">
+                        <div class="p-6 border-t border-gray-200 dark:border-gray-700 md:border-t-0 md:border-l">
                             <div class="flex items-center">
                                 <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" class="w-8 h-8 text-gray-500"><path d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"></path><path d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
-                                <div class="ml-4 text-lg leading-7 font-semibold"><a href="https://laracasts.com" class="underline text-gray-900 dark:text-white">Laracasts</a></div>
+                                <div class="ml-4 text-lg leading-7 font-semibold"><a href="#" class="underline text-gray-900 dark:text-white">Решение</a></div>
                             </div>
 
                             <div class="ml-12">
-                                <div class="mt-2 text-gray-600 dark:text-gray-400 text-sm">
-                                    Laracasts offers thousands of video tutorials on Laravel, PHP, and JavaScript development. Check them out, see for yourself, and massively level up your development skills in the process.
+                                <div class="mt-2 text-gray-800 dark:text-gray-400 text-sm">
+                                    <p>На реальной задаче было бы правильно уточнить кто подразумевается под пользователем. Пусть это любой человек, который ввел свой email без регистрации на сайте. Он просто хочет получать нужные новости на почту. Данные по подпискам пользователя и рубрик доступны только администратору - пользователю, который имеет действующий apikey.
+
+                                        Для этого нам понадобятся следующие сущности:
+                                        </p>
+
+<pre>
+    Пользователи-подписчики
+    	subscribers
+    	id, email
+</pre>
+<p>Было бы правильно для каждого подписчика создать токен, чтобы он тоже отправлялся при запросах на отписку. Тогда никакой злодей не сможет отписать от нужных новостей кого угодно. Но для простоты сейчас это реализовывать не будет.</p>
+
+
+<pre>Рубрики новостей
+        sections
+        id, title</pre>
+
+
+<pre>Подписки (отношение многие ко многим)
+        section_subscriber
+        section_id, subscriber_id</pre>
+
+
+<pre>API реализуем следующим  образом:</pre>
+	<h3>Без авторизации:</h3>
+    <ol>
+        <li>Подписка пользователя по email на нужную рубрику</li>
+        <li>Удаление подписки на конкретную рубрику</li>
+        <li>Удаление подписки на все рубрики</li>
+    </ol>
+
+	<h3>С авторизацией по токену:</h3>
+    <ol>
+        <li>Отображение подписок пользователя и отображение всех пользователей переданной рубрики</li>
+    </ol>
+
+
+
+
+<h3>API</h3>
+
+<pre>Подписаться по email на нужную рубрику
+    POST /subscription
+    параметры: email пользователя, id рубрики
+    возвращает 201, если все ок</pre>
+
+<pre>Отписаться от рубрики
+    DELETE /subscription
+    параметры: email пользователя, id рубрики
+    возвращает 200, если все ок
+    </pre>
+
+<pre>Отписаться от всех рубрик
+    DELETE /subscription
+    параметры: email пользователя
+    если не указан id рубрики, то удаляем все подписки</pre>
+
+<pre>Показать все подписки пользователя
+    GET /subscription/{user_id}
+    параметры: api_token, limit, offset</pre>
+<p>возвращает json со списком рубрик, на которые подписан пользователь с user_id, а также общее количество таких рубрик с учетом offset и limit.</p>
+<h5>Пример ответа:</h5>
+<pre>
+{
+'total': 10,
+'sections': [
+    {'id':  42, 'title: 'Hello world1'},
+    {'id':  99, 'title: 'Hello world2'},
+]}</pre>
+
+<pre>Показать всех пользователей,
+подписанных на определенную рубрику
+    GET /{section_id}/subscribers
+    параметры: api_token, section_id, limit, offset</pre>
+<p>возвращает json со списком пользователей, которые подписаны на рубрику с section_id с учетом offset и limit. А также общее количество пользователей, подписанных на рубрику.</p>
+
+
+<pre>Авторизация приложения
+    POST /app_login
+    параметры: login, password
+    создает и возвращает apikey</pre>
+
+<pre>Деавторизация приложения
+    POST /app_logout
+    параметры: apikey
+    обнуляет apikey</pre>
+
+<p>Для заполнения базы тестовыми данными иcпользуйте <b>php artisan db:seed</b></p>
+<p>Для запуска тестов иcпользуйте <b>php artisan test</b></p>
+<p>Исходный код доступен на <a href="https://github.com/tselikin/nekrasovka_test" class="underline text-gray-900 dark:text-white">GitHub</a></p>
                                 </div>
                             </div>
                         </div>
-
+{{--
                         <div class="p-6 border-t border-gray-200 dark:border-gray-700">
                             <div class="flex items-center">
                                 <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" class="w-8 h-8 text-gray-500"><path d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z"></path></svg>
