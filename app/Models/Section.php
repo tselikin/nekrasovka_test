@@ -9,6 +9,9 @@ class Section extends Model
 {
     use HasFactory;
 
+    protected $fillable = ['title'];
+    public $timestamps = false;
+
     public function subscribers()
     {
         return $this->belongsToMany(Subscriber::class);

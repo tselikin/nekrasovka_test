@@ -25,6 +25,21 @@ class SubscriberController extends Controller
     }
 
 
+    public function unsubscribe(Request $request)
+    {
+        $validated = $request->validate([
+            'email' => 'required|email|max:255|exists:subscribers,email',
+            'section' => 'required|exists:sections,id',
+        ]);
+
+        $subscriber = Subscriber::where('email', $request->email)->first();
+        $subscriber->sections()->detach($request->section);
+
+
+        return response()->json(['unsubscribed' => True], 200);
+    }
+
+
     public function subscriberSubscriptions(Subscriber $subscriber)
     {
         // dd($subscriber);

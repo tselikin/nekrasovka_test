@@ -20,4 +20,5 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::post('/subscription', [SubscriberController::class, 'subscribe'])->name('subscribe');
+Route::delete('/subscription', [SubscriberController::class, 'unsubscribe'])->name('unsubscribe');
 Route::get('/subscription/{subscriber}', [SubscriberController::class, 'subscriberSubscriptions']); //TODO Защитить путь
