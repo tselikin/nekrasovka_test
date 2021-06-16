@@ -15,14 +15,14 @@ use App\Http\Controllers\SubscriberController;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});
+// Route::middleware('auth:api')->get('/user', function (Request $request) {
+//     return $request->user();
+// });
 
+Route::get('/subscription/{subscriber}', [SubscriberController::class, 'subscriberSections'])->name('subscriberSections');
 Route::post('/subscription', [SubscriberController::class, 'subscribe'])->name('subscribe');
 Route::delete('/subscription', [SubscriberController::class, 'unsubscribe'])->name('unsubscribe');
 
 
 Route::post('/app_login', [SubscriberController::class, 'getApiToken'])->name('getApiToken');
 Route::post('/app_logout', [SubscriberController::class, 'clearApiToken'])->name('clearApiToken');
-Route::get('/subscription/{subscriber}', [SubscriberController::class, 'subscriberSubscriptions']); //TODO Защитить путь

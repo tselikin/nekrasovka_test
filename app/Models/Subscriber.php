@@ -9,6 +9,7 @@ class Subscriber extends Model
 {
     use HasFactory;
 
+    protected $hidden = ['pivot'];
     protected $fillable = ['email'];
     public $timestamps = false;
 

@@ -11,6 +11,7 @@ class Section extends Model
 
     protected $fillable = ['title'];
     public $timestamps = false;
+    protected $hidden = ['pivot'];
 
     public function subscribers()
     {

@@ -88,5 +88,27 @@ class SubscriberController extends Controller
     }
 
 
+    public function subscriberSections(Subscriber $subscriber, Request $request)
+    {
+        $validated = $request->validate([
+            'api_token' => 'required|max:255|exists:users,api_token',
+            'offset' => 'required|numeric',
+            'limit' => 'required|numeric'
+        ]);
+
+        $sections = $subscriber->sections()
+                               ->skip($request->offset)
+                               ->take($request->limit)
+                               ->get();
+
+        $totalSections = $subscriber->sections->count();
+
+        return response()->json([
+            'total' => $totalSections,
+            'sections' => $sections->toJson()
+        ]);
+    }
+
+
 
 }
