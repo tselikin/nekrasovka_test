@@ -145,10 +145,17 @@ class ApiTest extends TestCase
         $user->api_token = "Hello World!";
         $user->save();
 
+        $subscriber = Subscriber::create(['email' => Str::random(10).'@gmail.com']); //TODO: Сделать генерацию подписчиков и рубрики через фабрики
+        $section = Section::create(['title' => Str::random(10)]);
+        $section2 = Section::create(['title' => Str::random(10)]);
+        $subscriber->sections()->attach($section->id);
+        $subscriber->sections()->attach($section2->id);
+
+
         $response = $this->get(route('subscriberSections', [
-            'subscriber' => 176,
+            'subscriber' => $subscriber->id,
             'api_token' => $user->api_token,
-            'limit' => 10,
+            'limit' => 2,
             'offset' => 2
         ]));
 
@@ -166,10 +173,14 @@ class ApiTest extends TestCase
         $user->api_token = null;
         $user->save();
 
+        $subscriber = Subscriber::create(['email' => Str::random(10).'@gmail.com']);
+        $section = Section::create(['title' => Str::random(10)]);
+        $subscriber->sections()->attach($section->id);
+
         $response = $this->get(route('subscriberSections', [
-            'subscriber' => 176,
+            'subscriber' => $subscriber->id,
             'api_token' => $user->api_token,
-            'limit' => 10,
+            'limit' => 2,
             'offset' => 2
         ]));
 
