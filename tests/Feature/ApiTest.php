@@ -188,6 +188,53 @@ class ApiTest extends TestCase
     }
 
 
+    public function test_userWithTokenCanSeeAllSectionSubscribers()
+    {
+        $user = User::factory()->make();
+        $user->api_token = "Hello World!";
+        $user->save();
+
+        $subscriber = Subscriber::create(['email' => Str::random(10).'@gmail.com']); //TODO: Сделать генерацию подписчиков и рубрики через фабрики
+        $section = Section::create(['title' => Str::random(10)]);
+        $subscriber->sections()->attach($section->id);
+
+
+        $response = $this->get(route('sectionSubscribers', [
+            'section' => $section->id,
+            'api_token' => $user->api_token,
+            'limit' => 2,
+            'offset' => 2
+        ]));
+
+        $response->assertStatus(200);
+
+        $user->api_token = null;
+        $user->save();
+    }
+
+
+    public function test_userWithoutTokenCantSeeAllSectionSubscribers()
+    {
+        $user = User::factory()->make();
+        $user->api_token = null;
+        $user->save();
+
+        // $subscriber = Subscriber::create(['email' => Str::random(10).'@gmail.com']); //TODO: Сделать генерацию подписчиков и рубрики через фабрики
+        $section = Section::create(['title' => Str::random(10)]);
+        // $subscriber->sections()->attach($section->id);
+
+
+        $response = $this->get(route('sectionSubscribers', [
+            'section' => $section->id,
+            'api_token' => $user->api_token,
+            'limit' => 2,
+            'offset' => 2
+        ]));
+
+        $response->assertStatus(302);
+    }
+
+
 
 
 }

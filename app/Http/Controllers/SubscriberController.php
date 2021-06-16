@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Subscriber;
+use App\Models\Section;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 
@@ -42,12 +43,6 @@ class SubscriberController extends Controller
 
         $subscriber->sections()->detach();
         return response()->json(['unsubscribedFromAllSections' => True], 200);
-    }
-
-
-    public function subscriberSubscriptions(Subscriber $subscriber)
-    {
-        // dd($subscriber);
     }
 
 
@@ -106,6 +101,28 @@ class SubscriberController extends Controller
         return response()->json([
             'total' => $totalSections,
             'sections' => $sections->toJson()
+        ]);
+    }
+
+
+    public function sectionSubscribers(Section $section, Request $request)
+    {
+        $validated = $request->validate([
+            'api_token' => 'required|max:255|exists:users,api_token',
+            'offset' => 'required|numeric',
+            'limit' => 'required|numeric'
+        ]);
+
+        $subscribers = $section->subscribers()
+                               ->skip($request->offset)
+                               ->take($request->limit)
+                               ->get();
+
+        $totalSubscribers = $section->subscribers->count();
+
+        return response()->json([
+            'total' => $totalSubscribers,
+            'subscribers' => $subscribers->toJson()
         ]);
     }
 

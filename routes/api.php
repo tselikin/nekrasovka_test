@@ -23,6 +23,7 @@ Route::get('/subscription/{subscriber}', [SubscriberController::class, 'subscrib
 Route::post('/subscription', [SubscriberController::class, 'subscribe'])->name('subscribe');
 Route::delete('/subscription', [SubscriberController::class, 'unsubscribe'])->name('unsubscribe');
 
+Route::get('/{section}/subscribers', [SubscriberController::class, 'sectionSubscribers'])->name('sectionSubscribers');
 
 Route::post('/app_login', [SubscriberController::class, 'getApiToken'])->name('getApiToken');
 Route::post('/app_logout', [SubscriberController::class, 'clearApiToken'])->name('clearApiToken');
