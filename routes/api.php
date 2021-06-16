@@ -15,15 +15,20 @@ use App\Http\Controllers\SubscriberController;
 |
 */
 
-// Route::middleware('auth:api')->get('/user', function (Request $request) {
-//     return $request->user();
-// });
-
+// Рубрики, на которые подписан подписчик
 Route::get('/subscription/{subscriber}', [SubscriberController::class, 'subscriberSections'])->name('subscriberSections');
+
+// Подписаться на рубрику
 Route::post('/subscription', [SubscriberController::class, 'subscribe'])->name('subscribe');
+
+// Отписаться от рубрики или от всех рубрик
 Route::delete('/subscription', [SubscriberController::class, 'unsubscribe'])->name('unsubscribe');
 
+// Получить подписчиков рубрики
 Route::get('/{section}/subscribers', [SubscriberController::class, 'sectionSubscribers'])->name('sectionSubscribers');
 
+// Аторизироваться по логину и паролю и получить api_token
 Route::post('/app_login', [SubscriberController::class, 'getApiToken'])->name('getApiToken');
+
+// Очистить api_token
 Route::post('/app_logout', [SubscriberController::class, 'clearApiToken'])->name('clearApiToken');

@@ -19,11 +19,7 @@ class ApiTest extends TestCase
             'section' => '1'
         ]);
 
-        $response
-            ->assertStatus(201)
-            ->assertJson([
-                'created' => true,
-            ]);;
+        $response->assertStatus(201)->assertJson(['created' => true]);;
     }
 
 
@@ -58,12 +54,7 @@ class ApiTest extends TestCase
             'section' => $section->id
         ]);
 
-
-        $response
-            ->assertStatus(200)
-            ->assertJson([
-                'unsubscribed' => true,
-            ]);
+        $response->assertStatus(200)->assertJson(['unsubscribed' => true]);
     }
 
 
@@ -78,7 +69,6 @@ class ApiTest extends TestCase
         $response = $this->delete(route('subscribe'), [
             'email' => $subscriber->email,
         ]);
-
 
         $response
             ->assertStatus(200)
@@ -98,11 +88,9 @@ class ApiTest extends TestCase
     {
         $password = Str::random(10);
 
-        $user = User::factory()->make([
-            'password' => Hash::make($password)
-        ]);
-
+        $user = User::factory()->make(['password' => Hash::make($password)]);
         $user->save();
+
 
         $response = $this->post(route('getApiToken'), [
             'email' => $user->email,
@@ -111,9 +99,7 @@ class ApiTest extends TestCase
 
         $response
             ->assertStatus(200)
-            ->assertJson([
-                'successful api login' => true,
-            ]);
+            ->assertJson(['successful api login' => true]);
     }
 
 
@@ -123,19 +109,14 @@ class ApiTest extends TestCase
         $user->api_token = "Hello World!";
         $user->save();
 
+
         $response = $this->post(route('clearApiToken'), [
             'api_token' => $user->api_token
         ]);
 
         $response
             ->assertStatus(200)
-            ->assertJson([
-                'api token cleared' => true,
-            ]);
-
-        // $this->assertDatabaseMissing('users', [
-        //     'api_token' => $user->api_token
-        // ]);
+            ->assertJson(['api token cleared' => true]);
     }
 
 
@@ -162,8 +143,7 @@ class ApiTest extends TestCase
         $response->assertStatus(200);
 
 
-        $user->api_token = null;
-        $user->save();
+        $user->delete();
     }
 
 
@@ -208,6 +188,7 @@ class ApiTest extends TestCase
 
         $response->assertStatus(200);
 
+
         $user->api_token = null;
         $user->save();
     }
@@ -219,9 +200,7 @@ class ApiTest extends TestCase
         $user->api_token = null;
         $user->save();
 
-        // $subscriber = Subscriber::create(['email' => Str::random(10).'@gmail.com']); //TODO: Сделать генерацию подписчиков и рубрики через фабрики
         $section = Section::create(['title' => Str::random(10)]);
-        // $subscriber->sections()->attach($section->id);
 
 
         $response = $this->get(route('sectionSubscribers', [
