@@ -24,4 +24,5 @@ Route::delete('/subscription', [SubscriberController::class, 'unsubscribe'])->na
 
 
 Route::post('/app_login', [SubscriberController::class, 'getApiToken'])->name('getApiToken');
+Route::post('/app_logout', [SubscriberController::class, 'clearApiToken'])->name('clearApiToken');
 Route::get('/subscription/{subscriber}', [SubscriberController::class, 'subscriberSubscriptions']); //TODO Защитить путь

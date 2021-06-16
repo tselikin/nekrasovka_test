@@ -114,11 +114,28 @@ class ApiTest extends TestCase
             ->assertJson([
                 'successful api login' => true,
             ]);
+    }
 
 
+    public function test_userCanClearApiToken()
+    {
+        $user = User::factory()->make();
+        $user->api_token = "Hello World!";
+        $user->save();
 
+        $response = $this->post(route('clearApiToken'), [
+            'api_token' => $user->api_token
+        ]);
 
+        $response
+            ->assertStatus(200)
+            ->assertJson([
+                'api token cleared' => true,
+            ]);
 
+        $this->assertDatabaseMissing('users', [
+            'api_token' => $user->api_token
+        ]);
     }
 
 

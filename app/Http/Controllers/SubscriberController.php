@@ -68,4 +68,25 @@ class SubscriberController extends Controller
                 'apitoken' =>  $user->updateApiToken()
             ], 200);
     }
+
+
+    public function clearApiToken(Request $request)
+    {
+        $validated = $request->validate([
+            'api_token' => 'required|max:255|exists:users,api_token',
+        ]);
+
+        $user = User::where([
+            'api_token' => $request->api_token,
+        ])->first();
+
+        $user->clearApiToken();
+
+        return response()->json([
+            'api token cleared' => True,
+        ], 200);
+    }
+
+
+
 }
