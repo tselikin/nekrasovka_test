@@ -55,13 +55,40 @@ class ApiTest extends TestCase
             'email' => $subscriber->email,
             'section' => $section->id
         ]);
-        
+
 
         $response
             ->assertStatus(200)
             ->assertJson([
                 'unsubscribed' => true,
             ]);
+    }
+
+
+    public function test_userCanUnsubscribeFromALLSections() {
+        $subscriber = Subscriber::create(['email' => Str::random(10).'@gmail.com']);
+        $section = Section::create(['title' => Str::random(10)]);
+        $section2 = Section::create(['title' => Str::random(10)]);
+        $subscriber->sections()->attach($section->id);
+        $subscriber->sections()->attach($section2->id);
+
+
+        $response = $this->delete(route('subscribe'), [
+            'email' => $subscriber->email,
+        ]);
+
+
+        $response
+            ->assertStatus(200)
+            ->assertJson([
+                'unsubscribedFromAllSections' => true,
+            ]);
+
+
+        $this->assertDatabaseMissing('section_subscriber', [
+            'section_id' => $section->id,
+            'subscriber_id' => $subscriber->id,
+        ]);
     }
 
 

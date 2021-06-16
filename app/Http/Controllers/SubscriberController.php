@@ -29,14 +29,18 @@ class SubscriberController extends Controller
     {
         $validated = $request->validate([
             'email' => 'required|email|max:255|exists:subscribers,email',
-            'section' => 'required|exists:sections,id',
+            'section' => 'exists:sections,id',
         ]);
 
         $subscriber = Subscriber::where('email', $request->email)->first();
-        $subscriber->sections()->detach($request->section);
 
+        if ($request->section)  {
+            $subscriber->sections()->detach($request->section);
+            return response()->json(['unsubscribed' => True], 200);
+        }
 
-        return response()->json(['unsubscribed' => True], 200);
+        $subscriber->sections()->detach();
+        return response()->json(['unsubscribedFromAllSections' => True], 200);
     }
 
 
